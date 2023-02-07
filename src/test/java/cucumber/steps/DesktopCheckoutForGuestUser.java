@@ -19,7 +19,7 @@ public class DesktopCheckoutForGuestUser extends BaseSteps {
 
     @When("I open the {string}")
     public void openHomePage(String string) {
-        driver.navigate().to(createSiteUrlsMap().get(string));
+        driver.navigate().to(getPageByName(string).getPageUrl());
         cookieConsent.clickAcceptCookiesButton();
     }
 
@@ -34,6 +34,7 @@ public class DesktopCheckoutForGuestUser extends BaseSteps {
         assertThat(getPageByName(page).checkUrl())
                 .as("Not matched")
                 .isTrue();
+        softAssertions.assertAll();
     }
 
     @But("Search results contain the following products")
@@ -45,6 +46,7 @@ public class DesktopCheckoutForGuestUser extends BaseSteps {
             assertThat(bookDepositorySearchResultsPage.getBookFromList(product))
                     .as("The following book is not found: " + product)
                     .isNotNull();
+            softAssertions.assertAll();
         }
     }
 
@@ -63,9 +65,19 @@ public class DesktopCheckoutForGuestUser extends BaseSteps {
     public void verifyFilteringResults(DataTable dataTable) {
         List<String> productTitles = dataTable.asList();
         List<WebElement> books = bookDepositorySearchResultsPage.getListOfBooks();
-        assertThat(books)
-                .as("1234")
-                .hasSize(4);
+
+        for (String title:
+             productTitles) {
+            assertThat(bookDepositorySearchResultsPage.getBookFromList(title))
+                    .as("The following book was not found: " + title)
+                    .isNotNull();
+            softAssertions.assertAll();
+        }
+
+        assertThat(productTitles)
+                .as("Mismatched size")
+                .hasSameSizeAs(books);
+        softAssertions.assertAll();
     }
 
     @When("I click Add to basket button for product with name {string}")
@@ -83,6 +95,7 @@ public class DesktopCheckoutForGuestUser extends BaseSteps {
         assertThat(getPageByName(page).checkUrl())
                 .as("Not matched")
                 .isTrue();
+        softAssertions.assertAll();
     }
 
     @But("Basket order summary is as following:")
@@ -108,6 +121,7 @@ public class DesktopCheckoutForGuestUser extends BaseSteps {
         assertThat(getPageByName(page).checkUrl())
                 .as("Not matched")
                 .isTrue();
+        softAssertions.assertAll();
     }
 
     @When("I click Buy Now button")
@@ -159,7 +173,7 @@ public class DesktopCheckoutForGuestUser extends BaseSteps {
                 validationErrors) {
             assertThat(paymentPage.getPaymentDataValidationErrors())
                     .as("The following validation error is not displayed: " + error)
-                    .contains(error);
+                    .contains(error.trim());
             softAssertions.assertAll();
         }
     }

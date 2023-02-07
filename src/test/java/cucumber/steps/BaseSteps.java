@@ -4,6 +4,7 @@ import abstractpages.page.AbstractPage;
 import constants.Constants;
 import desktop.fragments.*;
 import desktop.pages.Basket;
+import desktop.pages.Home;
 import desktop.pages.PaymentCheckout;
 import desktop.pages.SearchResults;
 import driver.SingletonDriver;
@@ -21,6 +22,7 @@ public class BaseSteps {
         pageNameToObjectMap.put("Search page", new SearchResults());
         pageNameToObjectMap.put("Checkout", new PaymentCheckout());
         pageNameToObjectMap.put("Basket page", new Basket());
+        pageNameToObjectMap.put("Initial home page", new Home());
     }
 
     SoftAssertions softAssertions = new SoftAssertions();
@@ -40,12 +42,6 @@ public class BaseSteps {
     FiltersBlockComponent filtersBlock = new FiltersBlockComponent();
 
     CookieConsentComponent cookieConsent = new CookieConsentComponent();
-
-    public Map<String, String> createSiteUrlsMap() {
-        Map<String, String> siteUrls = new HashMap<>();
-        siteUrls.put("Initial home page", Constants.HOME_PAGE_URL);
-        return siteUrls;
-    }
 
     public AbstractPage getPageByName(String name) {
         return pageNameToObjectMap.get(name);
