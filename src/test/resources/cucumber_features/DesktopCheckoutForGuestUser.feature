@@ -25,12 +25,12 @@ Feature: Desktop Checkout for Guest User
       | Think Data Structures                     |
     When I click Add to basket button for product with name "Thinking in Java"
     And I select BasketCheckout in basket pop-up
-#    Then I am redirected to the "Basket page"
+    Then I am redirected to the "Basket page"
     And Basket order summary is as following:
       | Delivery cost | Total   |
       | FREE          | 66,28 € |
     When I click Checkout button on Basket page
-#    Then I am redirected to the "Checkout" page
+    Then I am redirected to the "Checkout" page
     When I click Buy Now button
     Then The following validation error messages are displayed on Delivery Address form:
       | Form field name | Validation error message                                 |
@@ -39,8 +39,8 @@ Feature: Desktop Checkout for Guest User
       | Address line 1  | Please enter your Address line 1                         |
       | Town/City       | Please enter your Town/City                              |
       | Postcode/ZIP    | Please enter your postcode/ZIP or write 'No Postcode'    |
-#    And The following validation error messages are displayed on Payment form:
-#      | Please enter your card number, Please enter your card's expiration date, Please enter your CVV |
+    And The following validation error messages are displayed on Payment form:
+      | Please enter your card number, Please enter your card's expiration date, Please enter your CVV |
     And Checkout order summary is as following:
       | Sub-total | Delivery | VAT    | Total   |
       | 66,28 €   | FREE     | 0,00 € | 66,28 € |
