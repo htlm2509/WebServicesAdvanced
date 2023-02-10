@@ -29,10 +29,19 @@ public abstract class AbstractFragment extends WebDriverWaiter {
     }
 
     protected void enterTextIntoField(WebElement webElement, String text) {
+        waitUntilElementIsClickable(webElement);
         webElement.sendKeys(text);
     }
 
     protected boolean isElementDisplayed(WebElement webElement) {
         return webElement.isDisplayed();
+    }
+
+    protected void switchToFrame(WebElement webElement) {
+        SingletonDriver.getDriver().switchTo().frame(webElement);
+    }
+
+    protected void switchToDefaultContent() {
+        SingletonDriver.getDriver().switchTo().defaultContent();
     }
 }

@@ -2,11 +2,8 @@ package desktop.fragments;
 
 import abstractpages.fragment.AbstractFragment;
 import driver.SingletonDriver;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.Select;
 
 public class PaymentPage extends AbstractFragment {
 
@@ -16,7 +13,7 @@ public class PaymentPage extends AbstractFragment {
     @FindBy(xpath = "//input[@name='delivery-fullName']")
     private static WebElement fullNameField;
 
-    @FindBy(xpath = "//select[@id='delivery-CountryDropdown']")
+    @FindBy(xpath = "//span[@name='deliveryCountry']")
     private static WebElement deliveryCountryDropdown;
 
     @FindBy(xpath = "//input[@name='delivery-addressLine1']")
@@ -34,22 +31,22 @@ public class PaymentPage extends AbstractFragment {
     @FindBy(xpath = "//input[@name='delivery-postCode']")
     private static WebElement postcodeZipField;
 
-    @FindBy(xpath = "//iframe[@name='braintree-hosted-field-number']")
+    @FindBy(xpath = "//iframe[@id='braintree-hosted-field-number']")
     private static WebElement cardNumberFrame;
 
-    @FindBy(xpath = "//iframe[@name='braintree-hosted-field-expirationDate']")
+    @FindBy(xpath = "//iframe[@id='braintree-hosted-field-expirationDate']")
     private static WebElement expirationDateFrame;
 
-    @FindBy(xpath = "//iframe[@name='braintree-hosted-field-number']")
+    @FindBy(xpath = "//iframe[@id='braintree-hosted-field-cvv']")
     private static WebElement cvvFrame;
 
-    @FindBy(xpath = "//input[@name='credit-card-number']")
+    @FindBy(xpath = "//input[@id='credit-card-number']")
     private static WebElement cardNumberField;
 
-    @FindBy(xpath = "//input[@name='expiration']")
+    @FindBy(xpath = "//input[@id='expiration']")
     private static WebElement expiryDateField;
 
-    @FindBy(xpath = "//input[@name='cvv']")
+    @FindBy(xpath = "//input[@id='cvv']")
     private static WebElement cvvField;
 
     @FindBy(xpath = "//dd[@class='text-right'][@aria-hidden='true']")
@@ -117,42 +114,33 @@ public class PaymentPage extends AbstractFragment {
     }
 
     public void enterCardNumber(String cardNumber) {
+        switchToFrame(cardNumberFrame);
         enterTextIntoField(cardNumberField, cardNumber);
+        switchToDefaultContent();
     }
 
     public void enterExpiryDate(String expiryDate) {
+        switchToFrame(expirationDateFrame);
         enterTextIntoField(expiryDateField, expiryDate);
+        switchToDefaultContent();
     }
 
     public void enterCvv(String cvv) {
+        switchToFrame(cvvFrame);
         enterTextIntoField(cvvField, cvv);
+        switchToDefaultContent();
     }
 
-    public void selectFromDeliveryCountryDropdown(String country) {
-        selectFromDropdown(deliveryCountryDropdown, country);
-    }
-
-    /*
-    public void selectFromDeliveryCountryDropdown(String country) {
+    public void selectFromDeliveryCountryDropdown(String name) {
         JavascriptExecutor jse = (JavascriptExecutor) SingletonDriver.getDriver();
-        jse.executeScript("arguments[0].text='" + country + "'", deliveryCountryDropdown);
+        jse.executeScript("arguments[0].click();", deliveryCountryDropdown);
+        WebElement countryName = SingletonDriver.getDriver()
+                .findElement(By.xpath("//a[text()='" + name + "']"));
+        clickButton(countryName);
     }
-    */
 
     public String getEmailAddressValue() {
         return getTextFieldText(emailField);
-    }
-
-    public WebElement getCardNumberFrame() {
-        return cardNumberFrame;
-    }
-
-    public WebElement getExpirationDateFrame() {
-        return expirationDateFrame;
-    }
-
-    public WebElement getCvvFrame() {
-        return cvvFrame;
     }
 
     public String getOrderTotal() {

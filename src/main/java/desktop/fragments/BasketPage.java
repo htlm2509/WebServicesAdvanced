@@ -1,7 +1,6 @@
 package desktop.fragments;
 
 import abstractpages.fragment.AbstractFragment;
-import abstractpages.page.AbstractPage;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -13,7 +12,7 @@ public class BasketPage extends AbstractFragment {
     @FindBy(xpath = "//dl[@class='delivery-text']//dd")
     private WebElement delivery;
 
-    @FindBy(xpath = "//a[@class='checkout-btn btn optimizely-variation-1 original-bucket']")
+    @FindBy(css = ".checkout-head-wrap .checkout-btn.first-variant")
     private WebElement checkoutButton;
 
     public void clickCheckoutButton() {

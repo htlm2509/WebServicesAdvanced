@@ -239,15 +239,8 @@ public class DesktopCheckoutForGuestUser extends BaseSteps {
     public void enterPaymentData(DataTable dataTable) {
         Map<String, String> data = dataTable.asMap(String.class, String.class);
 
-        driver.switchTo().frame(paymentPage.getCardNumberFrame());
         paymentPage.enterCardNumber(data.get("Card number"));
-        driver.switchTo().defaultContent();
-
-        driver.switchTo().frame(paymentPage.getExpirationDateFrame());
         paymentPage.enterExpiryDate(data.get("Expiry date (MM/YY)"));
-        driver.switchTo().defaultContent();
-
-        driver.switchTo().frame(paymentPage.getCvvFrame());
         paymentPage.enterCvv(data.get("CVV"));
     }
 }
