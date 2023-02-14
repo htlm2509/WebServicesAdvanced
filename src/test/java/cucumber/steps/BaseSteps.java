@@ -10,6 +10,7 @@ import desktop.pages.SearchResults;
 import driver.SingletonDriver;
 import org.assertj.core.api.SoftAssertions;
 import org.openqa.selenium.WebDriver;
+import utils.WebDriverWaiter;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -21,6 +21,9 @@ public class FiltersBlockComponent extends AbstractFragment {
     @FindBy(xpath = "//select[@name='format']")
     private WebElement formatFilterDropdown;
 
+    @FindBy(xpath = "//button[normalize-space(text())='Refine results']")
+    private WebElement refineResultsButton;
+
     public void selectFromPriceRangeFilterDropdown(String value) {
         selectFromDropdown(priceRangeFilterDropdown, value);
     }
@@ -36,6 +39,7 @@ public class FiltersBlockComponent extends AbstractFragment {
     }
 
     public void clickRefineResultsButton() {
+       waitUntilElementIsClickable(refineResultsButton);
        new Actions(SingletonDriver.getDriver())
                .scrollToElement(formatFilterDropdown)
                .keyDown(Keys.TAB)

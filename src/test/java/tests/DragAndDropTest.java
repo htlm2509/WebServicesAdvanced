@@ -1,5 +1,6 @@
 package tests;
 
+import constants.Constants;
 import org.junit.jupiter.api.Test;
 
 class DragAndDropTest extends BaseTest {
@@ -12,6 +13,15 @@ class DragAndDropTest extends BaseTest {
         softAssertions.assertThat(dragAndDropPage.getPlaceToDropElementText())
                 .as("Unexpected element text")
                 .isEqualTo("Dropped!");
+        softAssertions.assertAll();
+    }
+
+    @Test
+    void verifyBookDepositoryHomePageIsOpened() {
+        driver.navigate().to(Constants.HOME_PAGE_URL);
+        softAssertions.assertThat(driver.getCurrentUrl())
+                .as("Unexpected URL")
+                .isEqualTo("https://www.bookdepository.com/");
         softAssertions.assertAll();
     }
 }
