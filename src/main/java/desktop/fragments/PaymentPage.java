@@ -139,10 +139,6 @@ public class PaymentPage extends AbstractFragment {
         clickButton(countryName);
     }
 
-    public String getEmailAddressValue() {
-        return getTextFieldText(emailField);
-    }
-
     public String getOrderTotal() {
         return getElementText(orderTotal);
     }
@@ -159,28 +155,24 @@ public class PaymentPage extends AbstractFragment {
         return getElementText(delivery);
     }
 
-    public boolean isEmailValidationErrorDisplayed () {
+    private boolean isEmailValidationErrorDisplayed () {
        return isElementDisplayed(emailValidationError);
     }
 
-    public boolean isFullNameValidationErrorDisplayed () {
+    private boolean isFullNameValidationErrorDisplayed () {
        return isElementDisplayed(fullNameValidationError);
     }
 
-    public boolean isAddressLineOneValidationErrorDisplayed () {
+    private boolean isAddressLineOneValidationErrorDisplayed () {
        return isElementDisplayed(addressLineOneValidationError);
     }
 
-    public boolean isTownCityValidationErrorDisplayed () {
+    private boolean isTownCityValidationErrorDisplayed () {
        return isElementDisplayed(townCityValidationError);
     }
 
-    public boolean isPostcodeZipValidationErrorDisplayed () {
+    private boolean isPostcodeZipValidationErrorDisplayed () {
        return isElementDisplayed(postcodeZipValidationError);
-    }
-
-    public boolean isPaymentDataValidationErrorDisplayed () {
-       return isElementDisplayed(paymentDataValidationErrors);
     }
 
     public String getFullNameValidationError() {
@@ -207,11 +199,41 @@ public class PaymentPage extends AbstractFragment {
         return getElementText(paymentDataValidationErrors);
     }
 
-    public void clickEnterAddressManuallyButton() {
-        clickButton(enterAddressManuallyButton);
-    }
-
     public void clickBuyNowButton() {
         clickButton(buyNowButton);
+    }
+
+    public Boolean isValidationErrorMessageDisplayed(String error) {
+        switch (error) {
+            case "Email address":
+                return isEmailValidationErrorDisplayed();
+            case "Full name":
+                return isFullNameValidationErrorDisplayed();
+            case "Address line 1":
+                return isAddressLineOneValidationErrorDisplayed();
+            case "Town/City":
+                return isTownCityValidationErrorDisplayed();
+            case "Postcode/ZIP":
+                return isPostcodeZipValidationErrorDisplayed();
+            default:
+                throw new IllegalArgumentException("No such error message");
+        }
+    }
+
+    public String getValidationErrorText(String error) {
+        switch (error) {
+            case "Email address":
+                return getEmailValidationError();
+            case "Full name":
+                return getFullNameValidationError();
+            case "Address line 1":
+                return getAddressLineOneValidationError();
+            case "Town/City":
+                return getTownCityValidationError();
+            case "Postcode/ZIP":
+                return getPostcodeZipValidationError();
+            default:
+                throw new IllegalArgumentException("No such error message");
+        }
     }
 }

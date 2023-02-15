@@ -17,10 +17,12 @@ public abstract class AbstractFragment extends WebDriverWaiter {
     }
 
     protected void clickButton(WebElement webElement) {
+        waitUntilElementIsClickable(webElement);
         webElement.click();
     }
 
     protected String getElementText(WebElement webElement) {
+        waitUntilElementIsVisible(webElement);
         return webElement.getText();
     }
 

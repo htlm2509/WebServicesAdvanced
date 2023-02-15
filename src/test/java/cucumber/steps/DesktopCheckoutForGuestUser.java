@@ -2,7 +2,7 @@ package cucumber.steps;
 
 import io.cucumber.java.Transpose;
 import io.cucumber.java.en.*;
-import io.cucumber.datatable.DataTable;
+import org.assertj.core.api.SoftAssertions;
 import org.openqa.selenium.WebElement;
 
 import java.util.*;
@@ -34,26 +34,20 @@ public class DesktopCheckoutForGuestUser extends BaseSteps {
         assertThat(getPageByName(page).checkUrl())
                 .as("Not matched")
                 .isTrue();
-        softAssertions.assertAll();
     }
 
     @But("Search results contain the following products")
-    public void searchResultsVerification(DataTable dataTable) {
-        List<String> productTitles = dataTable.asList();
-
+    public void searchResultsVerification(List<String> productTitles) {
         for (String product:
              productTitles) {
             assertThat(bookDepositorySearchResultsPage.getBookFromList(product))
-                    .as("The following book is not found: " + product)
+                    .as("The following book is not found: %s", product)
                     .isNotNull();
-            softAssertions.assertAll();
         }
     }
 
     @But("I apply the following search filters")
-    public void filterSearchResults(DataTable dataTable) {
-        Map<String, String> data = dataTable.asMap(String.class, String.class);
-
+    public void filterSearchResults(Map<String, String> data) {
         filtersBlock.selectFromAvailabilityFilterDropdown(data.get("Availability"));
         filtersBlock.selectFromPriceRangeFilterDropdown(data.get("Price range"));
         filtersBlock.selectFromLanguageFilterDropdown(data.get("Language"));
@@ -62,22 +56,19 @@ public class DesktopCheckoutForGuestUser extends BaseSteps {
     }
 
     @Then("Search results contain only the following products")
-    public void verifyFilteringResults(DataTable dataTable) {
-        List<String> productTitles = dataTable.asList();
+    public void verifyFilteringResults(List<String> productTitles) {
         List<WebElement> books = bookDepositorySearchResultsPage.getListOfBooks();
 
         for (String title:
              productTitles) {
             assertThat(bookDepositorySearchResultsPage.getBookFromList(title))
-                    .as("The following book was not found: " + title)
+                    .as("The following book was not found: %s", title)
                     .isNotNull();
-            softAssertions.assertAll();
         }
 
         assertThat(productTitles)
                 .as("Mismatched size")
                 .hasSameSizeAs(books);
-        softAssertions.assertAll();
     }
 
     @When("I click Add to basket button for product with name {string}")
@@ -95,12 +86,11 @@ public class DesktopCheckoutForGuestUser extends BaseSteps {
         assertThat(getPageByName(page).checkUrl())
                 .as("Not matched")
                 .isTrue();
-        softAssertions.assertAll();
     }
 
     @But("Basket order summary is as following:")
-    public void verifyBasketOrderSummary(@Transpose DataTable dataTable) {
-        Map<String, String> data = dataTable.asMap(String.class, String.class);
+    public void verifyBasketOrderSummary(@Transpose Map<String, String> data) {
+        SoftAssertions softAssertions = new SoftAssertions();
 
         softAssertions.assertThat(basketPage.getOrderTotal())
                 .as("Unexpected order order Total value")
@@ -121,7 +111,6 @@ public class DesktopCheckoutForGuestUser extends BaseSteps {
         assertThat(getPageByName(page).checkUrl())
                 .as("Not matched")
                 .isTrue();
-        softAssertions.assertAll();
     }
 
     @When("I click Buy Now button")
@@ -130,37 +119,19 @@ public class DesktopCheckoutForGuestUser extends BaseSteps {
     }
 
     @Then("The following validation error messages are displayed on Delivery Address form:")
-    public void verifyDeliveryAddressValidationErrorsPresence(DataTable dataTable) {
-        Map<String, String> data = dataTable.asMap(String.class, String.class);
+    public void verifyDeliveryAddressValidationErrorsPresence(List<Map<String, String>> data) {
+        SoftAssertions softly = new SoftAssertions();
 
-        Map<String, Boolean> validationStatuses = new HashMap<>();
-        validationStatuses
-                .put(paymentPage.getEmailValidationError(), paymentPage.isEmailValidationErrorDisplayed());
-        validationStatuses
-                .put(paymentPage.getFullNameValidationError(), paymentPage.isFullNameValidationErrorDisplayed());
-        validationStatuses
-                .put(paymentPage.getAddressLineOneValidationError(), paymentPage.isAddressLineOneValidationErrorDisplayed());
-        validationStatuses
-                .put(paymentPage.getTownCityValidationError(), paymentPage.isTownCityValidationErrorDisplayed());
-        validationStatuses
-                .put(paymentPage.getPostcodeZipValidationError(), paymentPage.isPostcodeZipValidationErrorDisplayed());
+        data.forEach(error -> softly.assertThat(paymentPage.isValidationErrorMessageDisplayed(error.get("Form field name")))
+                        .as("%s error message is not displayed: ", error.get("Form field name"))
+                        .isTrue());
 
-        softAssertions.assertThat(validationStatuses.get(data.get("Email address")))
-                .as("Email validation error message is not displayed")
-                .isTrue();
-        softAssertions.assertThat(validationStatuses.get(data.get("Full name")))
-                .as("Full name validation error message is not displayed")
-                .isTrue();
-        softAssertions.assertThat(validationStatuses.get(data.get("Address line 1")))
-                .as("Address line 1 validation error message is not displayed")
-                .isTrue();
-        softAssertions.assertThat(validationStatuses.get(data.get("Town/City")))
-                .as("Town/City validation error message is not displayed")
-                .isTrue();
-        softAssertions.assertThat(validationStatuses.get(data.get("Postcode/ZIP")))
-                .as("Postcode/ZIP validation error message is not displayed")
-                .isTrue();
-        softAssertions.assertAll();
+        for (Map<String, String> errors:
+             data) {
+            softly.assertThat(paymentPage.getValidationErrorText(errors.get("Form field name")))
+                    .as("Value mismatch")
+                    .isEqualTo(errors.get("Validation error message"));
+        }
     }
 
     @And("The following validation error messages are displayed on Payment form:")
@@ -172,15 +143,14 @@ public class DesktopCheckoutForGuestUser extends BaseSteps {
         for (String error :
                 validationErrors) {
             assertThat(paymentPage.getPaymentDataValidationErrors())
-                    .as("The following validation error is not displayed: " + error)
+                    .as("%s validation error is not displayed: ", error)
                     .contains(error.trim());
-            softAssertions.assertAll();
         }
     }
 
     @But("Checkout order summary is as following:")
-    public void verifyCheckoutOrderSummaryValues(@Transpose DataTable dataTable) {
-        Map<String, String> data = dataTable.asMap(String.class, String.class);
+    public void verifyCheckoutOrderSummaryValues(@Transpose Map<String, String> data) {
+        SoftAssertions softAssertions = new SoftAssertions();
 
         softAssertions.assertThat(paymentPage.getOrderSubTotal())
                 .as("Unexpected order Sub-Total value")
@@ -203,9 +173,7 @@ public class DesktopCheckoutForGuestUser extends BaseSteps {
     }
 
     @When("I fill delivery address information manually:")
-    public void provideShipmentData(@Transpose DataTable dataTable) {
-        Map<String, String> data = dataTable.asMap(String.class, String.class);
-
+    public void provideShipmentData(@Transpose Map<String, String> data) {
         paymentPage.enterFullName(data.get("Full name"));
         paymentPage.enterAddressOne(data.get("Address line 1"));
         paymentPage.enterAddressTwo(data.get("Address line 2"));
@@ -217,28 +185,25 @@ public class DesktopCheckoutForGuestUser extends BaseSteps {
 
     @Then("there is no validation error messages displayed on Delivery Address form")
     public void verifyNoValidationErrorMessagesDisplayed() {
-        softAssertions.assertThat(paymentPage.isEmailValidationErrorDisplayed())
-                .as("Email field validation error message is displayed")
-                .isFalse();
-        softAssertions.assertThat(paymentPage.isFullNameValidationErrorDisplayed())
-                .as("Full name field validation error message is displayed")
-                .isFalse();
-        softAssertions.assertThat(paymentPage.isAddressLineOneValidationErrorDisplayed())
-                .as("Address line 1 field validation error message is displayed")
-                .isFalse();
-        softAssertions.assertThat(paymentPage.isTownCityValidationErrorDisplayed())
-                .as("Town/City field validation error message is displayed")
-                .isFalse();
-        softAssertions.assertThat(paymentPage.isPostcodeZipValidationErrorDisplayed())
-                .as("Postcode/ZIP field validation error message is displayed")
-                .isFalse();
-        softAssertions.assertAll();
+        SoftAssertions softly = new SoftAssertions();
+
+        List<String> errors = new ArrayList<>();
+        errors.add("Email address");
+        errors.add("Full name");
+        errors.add("Address line 1");
+        errors.add("Town/City");
+        errors.add("Postcode/ZIP");
+
+        for (String error :
+                errors) {
+            softly.assertThat(paymentPage.isValidationErrorMessageDisplayed(error))
+                    .as("%s validation error message is displayed", error)
+                    .isFalse();
+        }
     }
 
     @When("I enter my card details")
-    public void enterPaymentData(DataTable dataTable) {
-        Map<String, String> data = dataTable.asMap(String.class, String.class);
-
+    public void enterPaymentData(Map<String, String> data) {
         paymentPage.enterCardNumber(data.get("Card number"));
         paymentPage.enterExpiryDate(data.get("Expiry date (MM/YY)"));
         paymentPage.enterCvv(data.get("CVV"));

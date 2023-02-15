@@ -20,12 +20,10 @@ public class BasketPage extends AbstractFragment {
     }
 
     public String getOrderTotal() {
-        waitUntilPageIsLoaded();
         return getElementText(orderTotal);
     }
 
     public String getDeliveryCost() {
-        waitUntilPageIsLoaded();
         return getElementText(delivery);
     }
 }

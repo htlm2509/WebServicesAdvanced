@@ -26,8 +26,6 @@ public class BaseSteps {
         pageNameToObjectMap.put("Initial home page", new Home());
     }
 
-    SoftAssertions softAssertions = new SoftAssertions();
-
     WebDriver driver = SingletonDriver.getDriver();
 
     HomePage bookDepositoryHomePage = new HomePage();
