@@ -12,7 +12,7 @@ public class BasketPage extends AbstractFragment {
     @FindBy(xpath = "//dl[@class='delivery-text']//dd")
     private WebElement delivery;
 
-    @FindBy(css = ".checkout-head-wrap .checkout-btn.first-variant")
+    @FindBy(css = ".checkout-head-wrap .checkout-btn")
     private WebElement checkoutButton;
 
     public void clickCheckoutButton() {

@@ -220,7 +220,7 @@ public class PaymentPage extends AbstractFragment {
         }
     }
 
-    public String getValidationErrorText(String error) {
+    public String getDeliveryDataValidationErrorText(String error) {
         switch (error) {
             case "Email address":
                 return getEmailValidationError();

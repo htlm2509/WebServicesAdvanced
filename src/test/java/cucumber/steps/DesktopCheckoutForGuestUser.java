@@ -38,12 +38,16 @@ public class DesktopCheckoutForGuestUser extends BaseSteps {
 
     @But("Search results contain the following products")
     public void searchResultsVerification(List<String> productTitles) {
+        SoftAssertions softAssertions = new SoftAssertions();
+
         for (String product:
              productTitles) {
-            assertThat(bookDepositorySearchResultsPage.getBookFromList(product))
+            softAssertions.assertThat(bookDepositorySearchResultsPage.getBookFromList(product))
                     .as("The following book is not found: %s", product)
                     .isNotNull();
         }
+
+        softAssertions.assertAll();
     }
 
     @But("I apply the following search filters")
@@ -57,18 +61,22 @@ public class DesktopCheckoutForGuestUser extends BaseSteps {
 
     @Then("Search results contain only the following products")
     public void verifyFilteringResults(List<String> productTitles) {
+        SoftAssertions softAssertions = new SoftAssertions();
+
         List<WebElement> books = bookDepositorySearchResultsPage.getListOfBooks();
 
         for (String title:
              productTitles) {
-            assertThat(bookDepositorySearchResultsPage.getBookFromList(title))
+            softAssertions.assertThat(bookDepositorySearchResultsPage.getBookFromList(title))
                     .as("The following book was not found: %s", title)
                     .isNotNull();
         }
 
-        assertThat(productTitles)
+        softAssertions.assertThat(productTitles)
                 .as("Mismatched size")
                 .hasSameSizeAs(books);
+
+        softAssertions.assertAll();
     }
 
     @When("I click Add to basket button for product with name {string}")
@@ -120,32 +128,35 @@ public class DesktopCheckoutForGuestUser extends BaseSteps {
 
     @Then("The following validation error messages are displayed on Delivery Address form:")
     public void verifyDeliveryAddressValidationErrorsPresence(List<Map<String, String>> data) {
-        SoftAssertions softly = new SoftAssertions();
-
-        data.forEach(error -> softly.assertThat(paymentPage.isValidationErrorMessageDisplayed(error.get("Form field name")))
-                        .as("%s error message is not displayed: ", error.get("Form field name"))
-                        .isTrue());
+        SoftAssertions softAssertions = new SoftAssertions();
 
         for (Map<String, String> errors:
              data) {
-            softly.assertThat(paymentPage.getValidationErrorText(errors.get("Form field name")))
+            softAssertions.assertThat(paymentPage.getDeliveryDataValidationErrorText(errors.get("Form field name")))
                     .as("Value mismatch")
                     .isEqualTo(errors.get("Validation error message"));
+
         }
+
+        softAssertions.assertAll();
     }
 
     @And("The following validation error messages are displayed on Payment form:")
     public void verifyPaymentDataValidationErrorsPresence(String validationError) {
+        SoftAssertions softAssertions = new SoftAssertions();
+
         List<String> validationErrors = Arrays.stream(validationError
                         .split(","))
                 .collect(Collectors.toList());
 
         for (String error :
                 validationErrors) {
-            assertThat(paymentPage.getPaymentDataValidationErrors())
+            softAssertions.assertThat(paymentPage.getPaymentDataValidationErrors())
                     .as("%s validation error is not displayed: ", error)
                     .contains(error.trim());
         }
+
+        softAssertions.assertAll();
     }
 
     @But("Checkout order summary is as following:")
@@ -185,7 +196,7 @@ public class DesktopCheckoutForGuestUser extends BaseSteps {
 
     @Then("there is no validation error messages displayed on Delivery Address form")
     public void verifyNoValidationErrorMessagesDisplayed() {
-        SoftAssertions softly = new SoftAssertions();
+        SoftAssertions softAssertions = new SoftAssertions();
 
         List<String> errors = new ArrayList<>();
         errors.add("Email address");
@@ -196,10 +207,12 @@ public class DesktopCheckoutForGuestUser extends BaseSteps {
 
         for (String error :
                 errors) {
-            softly.assertThat(paymentPage.isValidationErrorMessageDisplayed(error))
+            softAssertions.assertThat(paymentPage.isValidationErrorMessageDisplayed(error))
                     .as("%s validation error message is displayed", error)
                     .isFalse();
         }
+
+        softAssertions.assertAll();
     }
 
     @When("I enter my card details")
