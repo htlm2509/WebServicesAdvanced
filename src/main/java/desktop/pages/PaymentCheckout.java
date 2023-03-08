@@ -1,7 +1,7 @@
 package desktop.pages;
 
 import abstractpages.page.AbstractPage;
-import constants.Constants;
+import constants.BDConstants;
 
 public class PaymentCheckout extends AbstractPage {
 
@@ -9,6 +9,6 @@ public class PaymentCheckout extends AbstractPage {
 
     public PaymentCheckout() {
         setPageUrlPattern(URL_PATTERN);
-        setPageUrl(Constants.PAYMENT_CHECKOUT_PAGE);
+        setPageUrl(BDConstants.PAYMENT_CHECKOUT_PAGE);
     }
 }

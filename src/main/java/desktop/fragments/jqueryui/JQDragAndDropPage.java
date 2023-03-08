@@ -1,4 +1,4 @@
-package desktop.fragments;
+package desktop.fragments.jqueryui;
 
 import abstractpages.fragment.AbstractFragment;
 import driver.SingletonDriver;
@@ -6,7 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 
-public class DragAndDropPage extends AbstractFragment {
+public class JQDragAndDropPage extends AbstractFragment {
 
     @FindBy(xpath = "//div[@id='draggable']")
     WebElement elementToDrag;

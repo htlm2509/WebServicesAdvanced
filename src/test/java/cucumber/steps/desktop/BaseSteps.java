@@ -1,16 +1,13 @@
-package cucumber.steps;
+package cucumber.steps.desktop;
 
 import abstractpages.page.AbstractPage;
-import constants.Constants;
-import desktop.fragments.*;
+import desktop.fragments.bookdepository.*;
 import desktop.pages.Basket;
 import desktop.pages.Home;
 import desktop.pages.PaymentCheckout;
 import desktop.pages.SearchResults;
 import driver.SingletonDriver;
-import org.assertj.core.api.SoftAssertions;
 import org.openqa.selenium.WebDriver;
-import utils.WebDriverWaiter;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,21 +23,20 @@ public class BaseSteps {
         pageNameToObjectMap.put("Initial home page", new Home());
     }
 
-    WebDriver driver = SingletonDriver.getDriver();
+    protected WebDriver driver = SingletonDriver.getDriver();
 
-    HomePage bookDepositoryHomePage = new HomePage();
+    protected BDHomePage bookDepositoryHomePage = new BDHomePage();
 
-    SearchResultsPage bookDepositorySearchResultsPage = new SearchResultsPage();
+    protected BDSearchResultsPage bookDepositorySearchResultsPage = new BDSearchResultsPage();
 
-    ModalDialogPage modalDialogPage = new ModalDialogPage();
+    protected BDModalDialogPage modalDialogPage = new BDModalDialogPage();
 
-    BasketPage basketPage = new BasketPage();
+    protected BDBasketPage basketPage = new BDBasketPage();
+    protected BDPaymentPage paymentPage = new BDPaymentPage();
 
-    PaymentPage paymentPage = new PaymentPage();
+    protected BDFiltersBlockComponent filtersBlock = new BDFiltersBlockComponent();
 
-    FiltersBlockComponent filtersBlock = new FiltersBlockComponent();
-
-    CookieConsentComponent cookieConsent = new CookieConsentComponent();
+    protected BDCookieConsentComponent cookieConsent = new BDCookieConsentComponent();
 
     public AbstractPage getPageByName(String name) {
         return pageNameToObjectMap.get(name);

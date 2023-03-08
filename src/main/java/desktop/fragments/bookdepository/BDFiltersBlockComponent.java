@@ -1,4 +1,4 @@
-package desktop.fragments;
+package desktop.fragments.bookdepository;
 
 import abstractpages.fragment.AbstractFragment;
 import driver.SingletonDriver;
@@ -7,7 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 
-public class FiltersBlockComponent extends AbstractFragment {
+public class BDFiltersBlockComponent extends AbstractFragment {
 
     @FindBy(xpath = "//select[@name='price']")
     private WebElement priceRangeFilterDropdown;

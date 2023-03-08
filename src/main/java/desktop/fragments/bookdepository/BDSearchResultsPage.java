@@ -1,4 +1,4 @@
-package desktop.fragments;
+package desktop.fragments.bookdepository;
 
 import abstractpages.fragment.AbstractFragment;
 import driver.SingletonDriver;
@@ -9,7 +9,7 @@ import org.openqa.selenium.support.FindBy;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchResultsPage extends AbstractFragment {
+public class BDSearchResultsPage extends AbstractFragment {
 
     @FindBy(xpath = "//div[@class='book-item']")
     private List<WebElement> listOfBooks;

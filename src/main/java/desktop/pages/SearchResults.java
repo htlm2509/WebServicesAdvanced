@@ -1,7 +1,7 @@
 package desktop.pages;
 
 import abstractpages.page.AbstractPage;
-import constants.Constants;
+import constants.BDConstants;
 
 public class SearchResults extends AbstractPage {
 
@@ -9,6 +9,6 @@ public class SearchResults extends AbstractPage {
 
     public SearchResults() {
         setPageUrlPattern(URL_PATTERN);
-        setPageUrl(Constants.SEARCH_RESULTS_PAGE);
+        setPageUrl(BDConstants.SEARCH_RESULTS_PAGE);
     }
 }

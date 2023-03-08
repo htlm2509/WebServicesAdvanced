@@ -1,11 +1,11 @@
-package desktop.fragments;
+package desktop.fragments.bookdepository;
 
 import abstractpages.fragment.AbstractFragment;
 import driver.SingletonDriver;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 
-public class PaymentPage extends AbstractFragment {
+public class BDPaymentPage extends AbstractFragment {
 
     @FindBy(xpath = "//input[@name='emailAddress']")
     private static WebElement emailField;

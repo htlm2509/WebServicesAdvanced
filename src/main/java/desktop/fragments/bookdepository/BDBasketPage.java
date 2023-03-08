@@ -1,10 +1,10 @@
-package desktop.fragments;
+package desktop.fragments.bookdepository;
 
 import abstractpages.fragment.AbstractFragment;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class BasketPage extends AbstractFragment {
+public class BDBasketPage extends AbstractFragment {
 
     @FindBy(xpath = "//dl[@class='total']//dd")
     private WebElement orderTotal;

@@ -1,6 +1,6 @@
 package constants;
 
-public class Constants {
+public class BDConstants {
 
     public static final String HOME_PAGE_URL = "https://www.bookdepository.com";
 
@@ -24,6 +24,6 @@ public class Constants {
 
     public static final String SIGN_IN_JOIN_PAGE_URL = "https://www.bookdepository.com/account/login/to/account";
 
-    private Constants() {
+    private BDConstants() {
     }
 }

@@ -1,4 +1,4 @@
-package cucumber.steps;
+package cucumber.steps.desktop;
 
 import io.cucumber.java.Transpose;
 import io.cucumber.java.en.*;

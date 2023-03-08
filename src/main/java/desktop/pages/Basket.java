@@ -1,11 +1,11 @@
 package desktop.pages;
 
 import abstractpages.page.AbstractPage;
-import constants.Constants;
+import constants.BDConstants;
 
 public class Basket extends AbstractPage {
 
     public Basket() {
-        setPageUrl(Constants.BASKET_PAGE);
+        setPageUrl(BDConstants.BASKET_PAGE);
     }
 }
